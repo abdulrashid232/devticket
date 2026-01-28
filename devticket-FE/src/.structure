@@ -1,0 +1,41 @@
+src/
+├── app/
+│   ├── core/                  # Singletons (Services loaded once)
+│   │   ├── auth/              # Auth Logic (User profiles like 'Alex Chen')
+│   │   ├── interceptors/      # HTTP Interceptors
+│   │   └── services/          # Global services (e.g., ThemeService)
+│   │
+│   ├── features/              # Main Pages (Lazy Loaded)
+│   │   ├── dashboard/         # The view in your screenshot
+│   │   │   ├── components/    # Components specific only to Dashboard
+│   │   │   │   ├── stat-grid/ # Container for the top 3 cards
+│   │   │   │   └── active-sprint/
+│   │   │   └── dashboard.component.ts
+│   │   ├── issues/            # 'All Issues' page
+│   │   ├── tasks/             # 'My Tasks' page
+│   │   └── settings/          # 'Settings' page
+│   │
+│   ├── layout/                # Main App Shell
+│   │   ├── sidebar/           # The Left Navigation
+│   │   ├── topbar/            # Search bar + 'New Issue' button
+│   │   └── main-layout/       # Wrapper component
+│   │
+│   ├── shared/                # Reusable UI Components (Design System)
+│   │   ├── components/
+│   │   │   ├── status-badge/  # The 'In Progress', 'Done' pills
+│   │   │   ├── stat-card/     # The 3 cards (Open Tickets, etc.)
+│   │   │   ├── ticket-table/  # The main data table
+│   │   │   └── avatar/        # User profile pictures
+│   │   └── pipes/             # Formatting (e.g., dates)
+│   │
+│   └── app.component.ts
+│
+├── assets/
+│   ├── images/
+│   └── icons/
+│
+└── styles/                    # Global Styling
+    ├── _variables.scss        # SCSS variables
+    ├── _design-system.scss    # PASTE YOUR EXTRACTED CSS HERE
+    ├── _typography.scss       # Font definitions
+    └── styles.scss            # Main entry point
