@@ -61,10 +61,10 @@ export class InputUi implements ControlValueAccessor {
   public inputFocus = output<FocusEvent>();
   public inputBlur = output<FocusEvent>();
 
-  hasError = computed(() => !!this.errorMessage);
-  hasValue = computed(() => this.value().length > 0);
-  characterCount = computed(() => this.value().length);
-  maxCharacters = computed(() => this.maxLength || 0);
+  public hasError = computed(() => !!this.errorMessage);
+  public hasValue = computed(() => this.value().length > 0);
+  public characterCount = computed(() => this.value().length);
+  public maxCharacters = computed(() => this.maxLength || 0);
 
   effectiveType = computed(() => {
     if (this.type() === 'password' && this.showPassword()) {
