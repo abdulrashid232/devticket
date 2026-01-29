@@ -1,7 +1,5 @@
 import { Component, input, output } from '@angular/core';
-
-export type ButtonVariant = 'primary';
-export type ButtonSize = 'sm' | 'md' | 'lg';
+import { ButtonVariant, ButtonSize } from './button.model';
 
 @Component({
   selector: 'app-button',
@@ -10,15 +8,15 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
   styleUrl: './button.css',
 })
 export class Button {
-  variant = input<ButtonVariant>('primary');
-  size = input<ButtonSize>('md');
-  disabled = input<boolean>(false);
-  type = input<'button' | 'submit' | 'reset'>('button');
-  fullWidth = input<boolean>(false);
+  public variant = input<ButtonVariant>('primary');
+  public size = input<ButtonSize>('md');
+  public disabled = input<boolean>(false);
+  public type = input<'button' | 'submit' | 'reset'>('button');
+  public fullWidth = input<boolean>(false);
 
-  clicked = output<MouseEvent>();
+  public clicked = output<MouseEvent>();
 
-  get buttonClasses(): string {
+  public get buttonClasses(): string {
     const baseClasses =
       'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-150 ease-in-out focus:outline-none disabled:cursor-not-allowed border';
 
@@ -38,7 +36,7 @@ export class Button {
     return `${baseClasses} ${variantClasses[this.variant()]} ${sizeClasses[this.size()]} ${widthClass}`.trim();
   }
 
-  onClick(event: MouseEvent): void {
+  public onClick(event: MouseEvent): void {
     if (!this.disabled()) {
       this.clicked.emit(event);
     }
