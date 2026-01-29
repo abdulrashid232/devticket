@@ -2,13 +2,10 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
-  EventEmitter,
   forwardRef,
   inject,
   input,
-  Input,
   output,
-  Output,
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -16,20 +13,17 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { InputSize, InputType, InputVariant } from './input.model';
 
 @Component({
-  selector: 'app-input-ui',
+  selector: 'app-input',
   imports: [CommonModule],
-  templateUrl: './input-ui.html',
-  styleUrl: './input-ui.css',
+  templateUrl: './input.html',
+  styleUrl: './input.css',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => InputUi),
       multi: true,
     },
-  ],
-  host: {
-    class: 'block w-100%',
-  },
+  ]
 })
 export class InputUi implements ControlValueAccessor {
   public value = signal<string>('');
