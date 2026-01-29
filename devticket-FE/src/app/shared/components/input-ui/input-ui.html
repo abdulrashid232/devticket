@@ -1,0 +1,83 @@
+<div class="input-wrapper">
+  <!-- Label -->
+  @if (label) {
+    <label label class="input-label" [class.input-label--required]="required">
+      {{ label }}
+      @if (required) {
+        <span required class="input-label__asterisk">*</span>
+      }
+    </label>
+  }
+
+  <!-- Input Container -->
+  <div [ngClass]="containerClasses()">
+    <!-- Left Icon -->
+    @if (leftIcon) {
+      <span class="input-icon input-icon--left" [innerHTML]="getLeftIconSvg()"></span>
+    }
+
+    <!-- Input Element -->
+    <input
+      class="input-field"
+      [type]="effectiveType()"
+      [value]="value()"
+      [placeholder]="placeholder || ''"
+      [disabled]="isDisabled()"
+      [readonly]="readonly"
+      [attr.maxlength]="maxLength"
+      [attr.minlength]="minLength"
+      [pattern]="pattern"
+      [autocomplete]="autocomplete || 'off'"
+      [required]="required"
+      (input)="onInput($event)"
+      (focus)="onFocus($event)"
+      (blur)="onBlur($event)"
+    />
+
+    <!-- Right Icon / Password Toggle -->
+    @if (canTogglePassword()) {
+      <button
+        type="button"
+        class="input-icon input-icon--right input-icon--clickable"
+        [innerHTML]="getRightIconSvg()"
+        (click)="togglePasswordVisibility()"
+        [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+        tabindex="-1"
+      ></button>
+    }
+
+    @if (rightIcon && !canTogglePassword()) {
+      <span class="input-icon input-icon--right" [innerHTML]="getRightIconSvg()"></span>
+    }
+
+    <!-- Error Icon -->
+    @if (hasError()) {
+      <span class="input-icon input-icon--error" [innerHTML]="getErrorIconSvg()"></span>
+    }
+  </div>
+
+  <!-- Helper Text / Error Message / Character Count -->
+  <div class="input-footer">
+    <div class="input-messages">
+      <!-- Error Message -->
+      @if (hasError()) {
+        <span class="input-error">
+          {{ errorMessage }}
+        </span>
+      }
+
+      <!-- Hint Text -->
+    </div>
+
+    @if (hint && !hasError()) {
+      <span class="input-hint">
+        {{ hint }}
+      </span>
+    }
+
+    <!-- Character Count -->
+    @if (showCharacterCount && maxLength) {
+      <span class="input-character-count"> {{ characterCount() }}/{{ maxCharacters() }} </span>
+    }
+  </div>
+</div>
