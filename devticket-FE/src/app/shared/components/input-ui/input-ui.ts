@@ -4,7 +4,10 @@ import {
   computed,
   EventEmitter,
   forwardRef,
+  inject,
+  input,
   Input,
+  output,
   Output,
   signal,
 } from '@angular/core';
@@ -29,34 +32,40 @@ import { InputSize, InputType, InputVariant } from './input.model';
   },
 })
 export class InputUi implements ControlValueAccessor {
-  value = signal<string>('');
-  isFocused = signal<boolean>(false);
-  showPassword = signal<boolean>(false);
-  isDisabled = signal<boolean>(false);
+  public value = signal<string>('');
+  public isFocused = signal<boolean>(false);
+  public showPassword = signal<boolean>(false);
+  public isDisabled = signal<boolean>(false);
 
-  constructor(private sanitizer: DomSanitizer) {}
+  // constructor(private sanitizer: DomSanitizer) {}
+  private sanitizer = inject(DomSanitizer);
 
-  @Input() type: InputType = 'text';
-  @Input() size: InputSize = 'md';
-  @Input() variant: InputVariant = 'outlined';
-  @Input() label?: string;
-  @Input() placeholder?: string;
-  @Input() hint?: string;
-  @Input() errorMessage?: string;
-  @Input() required = false;
-  @Input() disabled = false;
-  @Input() readonly = false;
-  @Input() maxLength?: number;
-  @Input() minLength?: number;
-  @Input() pattern?: string;
-  @Input() autocomplete?: string;
-  @Input() leftIcon?: string;
-  @Input() rightIcon?: string;
-  @Input() showCharacterCount = false;
+  public type = input<InputType>('text');
+  public size = input<InputSize>('md');
+  public variant = input<InputVariant>('outlined');
 
-  @Output() inputChange = new EventEmitter<string>();
-  @Output() inputFocus = new EventEmitter<FocusEvent>();
-  @Output() inputBlur = new EventEmitter<FocusEvent>();
+  public label? = input<string | undefined>('');
+  public placeholder? = input<string | undefined>('');
+  public hint? = input<string | undefined>();
+  public errorMessage? = input<string | undefined>();
+
+  public required = input<boolean>(false);
+  public disabled = input<boolean>(false);
+  public readonly = input<boolean>(false);
+
+  public maxLength? = input<number | undefined>();
+  public minLength? = input<number | undefined>();
+  public pattern? = input<string | undefined>('');
+  public autocomplete? = input<string | undefined>('');
+
+  public leftIcon? = input<string | undefined>('');
+  public rightIcon? = input<string | undefined>('');
+
+  public showCharacterCount = input<boolean>(false);
+
+  public inputChange = output<string>();
+  public inputFocus = output<FocusEvent>();
+  public inputBlur = output<FocusEvent>();
 
   hasError = computed(() => !!this.errorMessage);
   hasValue = computed(() => this.value().length > 0);
@@ -64,13 +73,13 @@ export class InputUi implements ControlValueAccessor {
   maxCharacters = computed(() => this.maxLength || 0);
 
   effectiveType = computed(() => {
-    if (this.type === 'password' && this.showPassword()) {
+    if (this.type() === 'password' && this.showPassword()) {
       return 'text';
     }
     return this.type;
   });
 
-  canTogglePassword = computed(() => this.type === 'password');
+  canTogglePassword = computed(() => this.type() === 'password');
 
   wrapperClasses = computed(() => 'flex flex-col gap-2 w-full');
 
@@ -102,7 +111,7 @@ export class InputUi implements ControlValueAccessor {
     let stateClasses = '';
 
     if (this.isFocused() && !this.hasError()) {
-      if (this.variant === 'ghost') {
+      if (this.variant() === 'ghost') {
         stateClasses = 'border-b-blue-500';
       } else {
         stateClasses = 'border-blue-500 ring-4 ring-blue-500/15';
@@ -110,7 +119,7 @@ export class InputUi implements ControlValueAccessor {
     }
 
     if (this.hasError()) {
-      if (this.variant === 'ghost') {
+      if (this.variant() === 'ghost') {
         stateClasses = 'border-b-red-500';
       } else {
         stateClasses = 'border-red-500 hover:border-red-600';
@@ -124,11 +133,16 @@ export class InputUi implements ControlValueAccessor {
       stateClasses = 'opacity-60 cursor-not-allowed bg-neutral-100 border-neutral-200';
     }
 
-    if (this.variant === 'outlined' && this.isFocused() && !this.hasError() && !this.isDisabled()) {
+    if (
+      this.variant() === 'outlined' &&
+      this.isFocused() &&
+      !this.hasError() &&
+      !this.isDisabled()
+    ) {
       stateClasses += ' bg-neutral-50';
     }
 
-    return `${base} ${sizeClasses[this.size]} ${variantClasses[this.variant]} ${stateClasses}`;
+    return `${base} ${sizeClasses[this.size()]} ${variantClasses[this.variant()]} ${stateClasses}`;
   });
 
   iconSizeClasses = computed(() => {
@@ -137,7 +151,7 @@ export class InputUi implements ControlValueAccessor {
       md: 'w-5 h-5',
       lg: 'w-6 h-6',
     };
-    return sizes[this.size];
+    return sizes[this.size()];
   });
 
   inputClasses = computed(() => {
@@ -151,7 +165,7 @@ export class InputUi implements ControlValueAccessor {
       md: 'text-base',
       lg: 'text-lg',
     };
-    return `${base} ${sizes[this.size]} ${disabled}`;
+    return `${base} ${sizes[this.size()]} ${disabled}`;
   });
 
   iconClasses = computed(
@@ -215,7 +229,7 @@ export class InputUi implements ControlValueAccessor {
 
   // Icon helpers
   getLeftIconSvg(): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(this.getIconSvg(this.leftIcon || ''));
+    return this.sanitizer.bypassSecurityTrustHtml(this.getIconSvg(this.leftIcon?.() || ''));
   }
 
   getRightIconSvg(): SafeHtml {
@@ -224,7 +238,7 @@ export class InputUi implements ControlValueAccessor {
         this.showPassword() ? this.getIconSvg('eye-off') : this.getIconSvg('eye'),
       );
     }
-    return this.sanitizer.bypassSecurityTrustHtml(this.getIconSvg(this.rightIcon || ''));
+    return this.sanitizer.bypassSecurityTrustHtml(this.getIconSvg(this.rightIcon?.() || ''));
   }
 
   getErrorIconSvg(): SafeHtml {
