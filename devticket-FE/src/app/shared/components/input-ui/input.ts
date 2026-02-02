@@ -3,18 +3,27 @@ import {
   Component,
   computed,
   forwardRef,
-  inject,
   input,
   output,
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { 
+  heroMagnifyingGlass, 
+  heroEnvelope, 
+  heroPhone, 
+  heroUser, 
+  heroLockClosed, 
+  heroEye, 
+  heroEyeSlash,
+  heroExclamationCircle 
+} from '@ng-icons/heroicons/outline';
 import { InputSize, InputType, InputVariant } from './input.model';
 
 @Component({
   selector: 'app-input',
-  imports: [CommonModule],
+  imports: [CommonModule, NgIconComponent],
   templateUrl: './input.html',
   styleUrl: './input.css',
   providers: [
@@ -23,6 +32,18 @@ import { InputSize, InputType, InputVariant } from './input.model';
       useExisting: forwardRef(() => InputUi),
       multi: true,
     },
+  ],
+  viewProviders: [
+    provideIcons({ 
+      heroMagnifyingGlass, 
+      heroEnvelope, 
+      heroPhone, 
+      heroUser, 
+      heroLockClosed, 
+      heroEye, 
+      heroEyeSlash,
+      heroExclamationCircle 
+    })
   ]
 })
 export class InputUi implements ControlValueAccessor {
@@ -31,29 +52,26 @@ export class InputUi implements ControlValueAccessor {
   public showPassword = signal<boolean>(false);
   public isDisabled = signal<boolean>(false);
 
-  
-  private sanitizer = inject(DomSanitizer);
-
   public type = input<InputType>('text');
   public size = input<InputSize>('md');
   public variant = input<InputVariant>('outlined');
 
-  public label? = input<string | undefined>('');
-  public placeholder? = input<string | undefined>('');
-  public hint? = input<string | undefined>();
-  public errorMessage? = input<string | undefined>();
+  public label = input<string>('');
+  public placeholder = input<string>('');
+  public hint = input<string | undefined>();
+  public errorMessage = input<string | undefined>();
 
   public required = input<boolean>(false);
   public disabled = input<boolean>(false);
   public readonly = input<boolean>(false);
 
-  public maxLength? = input<number | undefined>();
-  public minLength? = input<number | undefined>();
-  public pattern? = input<string | undefined>('');
-  public autocomplete? = input<string | undefined>('');
+  public maxLength = input<number | undefined>();
+  public minLength = input<number | undefined>();
+  public pattern = input<string>('');
+  public autocomplete = input<string>('');
 
-  public leftIcon? = input<string | undefined>('');
-  public rightIcon? = input<string | undefined>('');
+  public leftIcon = input<string>('');
+  public rightIcon = input<string>('');
 
   public showCharacterCount = input<boolean>(false);
 
@@ -70,7 +88,7 @@ export class InputUi implements ControlValueAccessor {
     if (this.type() === 'password' && this.showPassword()) {
       return 'text';
     }
-    return this.type;
+    return this.type();
   });
 
   canTogglePassword = computed(() => this.type() === 'password');
@@ -114,12 +132,12 @@ export class InputUi implements ControlValueAccessor {
 
     if (this.hasError()) {
       if (this.variant() === 'ghost') {
-        stateClasses = 'border-b-red-500';
+        stateClasses = 'border-b-[var(--base-400)]';
       } else {
-        stateClasses = 'border-red-500 hover:border-red-600';
+        stateClasses = 'border-[var(--base-400)] hover:border-[var(--base-400)]';
       }
       if (this.isFocused()) {
-        stateClasses += ' ring-4 ring-red-500/15';
+        stateClasses += ' ring-4 ring-[var(--base-400)]/15';
       }
     }
 
@@ -174,7 +192,7 @@ export class InputUi implements ControlValueAccessor {
 
   errorIconClasses = computed(
     () =>
-      `inline-flex items-center justify-center flex-shrink-0 text-red-500 dark:text-red-400 transition-colors duration-150 ${this.iconSizeClasses()}`,
+      `inline-flex items-center justify-center flex-shrink-0 text-[var(--base-400)] transition-colors duration-150 ${this.iconSizeClasses()}`,
   );
 
   
@@ -221,40 +239,17 @@ export class InputUi implements ControlValueAccessor {
     this.showPassword.update((value) => !value);
   }
 
-
-  getLeftIconSvg(): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(this.getIconSvg(this.leftIcon?.() || ''));
-  }
-
-  getRightIconSvg(): SafeHtml {
-    if (this.canTogglePassword()) {
-      return this.sanitizer.bypassSecurityTrustHtml(
-        this.showPassword() ? this.getIconSvg('eye-off') : this.getIconSvg('eye'),
-      );
-    }
-    return this.sanitizer.bypassSecurityTrustHtml(this.getIconSvg(this.rightIcon?.() || ''));
-  }
-
-  getErrorIconSvg(): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(this.getIconSvg('alert-circle'));
-  }
-
-  getIconSvg(iconName: string): string {
-    const icons: Record<string, string> = {
-      search:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>',
-      email:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
-      phone:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
-      user: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-      lock: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
-      eye: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
-      'eye-off':
-        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>',
-      'alert-circle':
-        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>',
+  getIconName(iconKey: string): string {
+    const iconMap: Record<string, string> = {
+      'search': 'heroMagnifyingGlass',
+      'email': 'heroEnvelope',
+      'phone': 'heroPhone',
+      'user': 'heroUser',
+      'lock': 'heroLockClosed',
+      'eye': 'heroEye',
+      'eye-off': 'heroEyeSlash',
+      'alert-circle': 'heroExclamationCircle'
     };
-    return icons[iconName] || '';
+    return iconMap[iconKey] || '';
   }
 }
