@@ -1,7 +1,77 @@
+@import 'tailwindcss';
+
 :host {
-  display: inline-block;
+  @apply inline-flex items-center justify-center font-medium text-white transition-all duration-150 cursor-pointer;
+}
+
+:host:has(svg) {
+  @apply gap-1;
+}
+
+:host:focus {
+  @apply outline-none;
+}
+
+:host:disabled {
+  @apply cursor-not-allowed;
 }
 
 :host(.full-width) {
-  width: 100%;
+  @apply w-full;
+}
+
+:host(.size-sm) {
+  @apply px-3 h-8 text-xs rounded-md;
+}
+
+:host(.size-md) {
+  @apply px-4 h-9 text-sm rounded-lg;
+}
+
+:host(.size-lg) {
+  @apply px-6 h-10 text-lg rounded-xl;
+}
+
+:host(.variant-primary) {
+  @apply border border-(--primary-400)/40 bg-(--primary-500) shadow-sm;
+}
+
+:host(.variant-primary:hover) {
+  @apply bg-(--primary-600);
+}
+
+:host(.variant-primary:focus-visible) {
+  @apply shadow-[0_0_0_3px_var(--primary-300)];
+}
+
+:host(.variant-primary:active:not(:disabled)) {
+  @apply bg-(--primary-700) shadow-none scale-[0.99];
+}
+
+:host(.variant-primary:disabled) {
+  @apply bg-(--primary-300) border-(--primary-300);
+}
+
+:host(.variant-outline) {
+  @apply bg-neutral-800 border border-neutral-700 shadow-sm;
+}
+
+:host(.variant-outline:hover) {
+  @apply bg-neutral-800/85;
+}
+
+:host(.variant-outline:active:not(:disabled)) {
+  @apply shadow-none bg-neutral-800/50 scale-[0.99];
+}
+
+:host(.variant-outline-flat) {
+  @apply bg-transparent border border-neutral-700 shadow-sm;
+}
+
+:host(.variant-outline-flat:hover) {
+  @apply bg-neutral-800/85;
+}
+
+:host(.variant-outline-flat:active:not(:disabled)) {
+  @apply shadow-none bg-neutral-800/50 scale-[0.99];
 }

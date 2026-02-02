@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { ButtonVariant, ButtonSize } from './button.model';
+import type { ButtonVariant, ButtonSize } from './button.model';
 
 @Component({
   selector: '[app-button]',
@@ -8,8 +8,13 @@ import { ButtonVariant, ButtonSize } from './button.model';
   styleUrl: './button.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class]': 'buttonClasses',
     '[class.full-width]': 'fullWidth()',
+    '[class.size-sm]': 'size() === "sm"',
+    '[class.size-md]': 'size() === "md"',
+    '[class.size-lg]': 'size() === "lg"',
+    '[class.variant-primary]': 'variant() === "primary"',
+    '[class.variant-outline]': 'variant() === "outline"',
+    '[class.variant-outline-flat]': 'variant() === "outline-flat"',
     '[attr.disabled]': 'disabled() || null',
     '(click)': 'onClick($event)',
   },
@@ -22,30 +27,6 @@ export class Button {
   public fullWidth = input<boolean>(false);
 
   public clicked = output<MouseEvent>();
-
-  public get buttonClasses(): string {
-    const baseClasses =
-      'inline-flex items-center justify-center font-medium text-white transition-all duration-150 ease-in-out focus:outline-none cursor-pointer disabled:cursor-not-allowed';
-
-    const variantClasses: Record<ButtonVariant, string> = {
-      primary:
-        'border bg-[var(--primary-500)] border-[var(--primary-400)]/40 shadow hover:bg-[var(--primary-600)] focus-visible:shadow-[0_0_0_3px_var(--primary-300)] active:bg-[var(--primary-700)] active:shadow-none active:translate-y-px disabled:bg-[var(--primary-300)] disabled:border-[var(--primary-300)]',
-      outline:
-        'bg-neutral-800 hover:bg-neutral-800/85 border border-neutral-700 shadow active:shadow-none active:bg-neutral-800/50 active:translate-y-px',
-      'outline-flat':
-        'bg-transparent hover:bg-neutral-800/85 border border-neutral-700 shadow active:shadow-none active:bg-neutral-800/50 active:translate-y-px',
-    };
-
-    const sizeClasses: Record<ButtonSize, string> = {
-      sm: 'px-3 py-1.5 text-sm rounded-md',
-      md: 'px-4 py-2 text-base rounded-lg',
-      lg: 'px-6 py-3 text-lg rounded-xl',
-    };
-
-    const widthClass: string = this.fullWidth() ? 'w-full' : '';
-
-    return `${baseClasses} ${variantClasses[this.variant()]} ${sizeClasses[this.size()]} ${widthClass}`.trim();
-  }
 
   public onClick(event: MouseEvent): void {
     if (!this.disabled()) {
