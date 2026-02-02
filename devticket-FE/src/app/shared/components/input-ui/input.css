@@ -1,0 +1,14 @@
+:host {
+  display: 'block w-100%';
+}
+
+input {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  width: 100%;
+}
+input:focus {
+  outline: none;
+}

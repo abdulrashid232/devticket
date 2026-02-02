@@ -1,0 +1,71 @@
+<div class="input-wrapper">
+  @if (label()) {
+    <label label class="input-label" [class.input-label--required]="required()">
+      {{ label() }}
+      @if (required()) {
+        <span required class="input-label__asterisk">* </span>
+      }
+    </label>
+  }
+
+  <div [ngClass]="containerClasses()">
+    @if (leftIcon() && leftIcon() !== '') {
+      <ng-icon [name]="getIconName(leftIcon() || '')" [ngClass]="iconClasses()"> </ng-icon>
+    }
+
+    <input
+      class="input-field"
+      [type]="effectiveType()"
+      [value]="value()"
+      [placeholder]="placeholder || ''"
+      [disabled]="isDisabled()"
+      [readonly]="readonly()"
+      [attr.maxlength]="maxLength()"
+      [attr.minlength]="minLength()"
+      [pattern]="pattern()"
+      [autocomplete]="autocomplete || 'off'"
+      [required]="required()"
+      (input)="onInput($event)"
+      (focus)="onFocus($event)"
+      (blur)="onBlur($event)"
+    />
+
+    @if (canTogglePassword()) {
+      <button
+        type="button"
+        [ngClass]="toggleButtonClasses()"
+        (click)="togglePasswordVisibility()"
+        [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+        tabindex="-1"
+      >
+        <ng-icon [name]="showPassword() ? 'heroEyeSlash' : 'heroEye'"> </ng-icon>
+      </button>
+    }
+
+    @if (rightIcon() && rightIcon() !== '' && !canTogglePassword()) {
+      <ng-icon [name]="getIconName(rightIcon() || '')" [ngClass]="iconClasses()"> </ng-icon>
+    }
+
+    
+  </div>
+
+  <div class="input-footer">
+    <div class="input-messages">
+      @if (hasError()) {
+        <span class="input-error">
+          {{ errorMessage() }}
+        </span>
+      }
+    </div>
+
+    @if (hint() && !hasError()) {
+      <span class="input-hint">
+        {{ hint() }}
+      </span>
+    }
+
+    @if (showCharacterCount() && maxLength()) {
+      <span class="input-character-count"> {{ characterCount() }}/{{ maxCharacters() }} </span>
+    }
+  </div>
+</div>
