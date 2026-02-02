@@ -2,13 +2,16 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { ButtonVariant, ButtonSize } from './button.model';
 
 @Component({
-  selector: 'app-button',
+  selector: '[app-button]',
   imports: [],
   templateUrl: './button.html',
   styleUrl: './button.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    '[class]': 'buttonClasses',
     '[class.full-width]': 'fullWidth()',
+    '[attr.disabled]': 'disabled() || null',
+    '(click)': 'onClick($event)',
   },
 })
 export class Button {
