@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { ButtonVariant, ButtonSize } from './button.model';
 
 @Component({
@@ -6,6 +6,10 @@ import { ButtonVariant, ButtonSize } from './button.model';
   imports: [],
   templateUrl: './button.html',
   styleUrl: './button.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.full-width]': 'fullWidth()',
+  },
 })
 export class Button {
   public variant = input<ButtonVariant>('primary');
