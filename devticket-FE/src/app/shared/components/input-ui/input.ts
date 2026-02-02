@@ -31,7 +31,7 @@ export class InputUi implements ControlValueAccessor {
   public showPassword = signal<boolean>(false);
   public isDisabled = signal<boolean>(false);
 
-  // constructor(private sanitizer: DomSanitizer) {}
+  
   private sanitizer = inject(DomSanitizer);
 
   public type = input<InputType>('text');
@@ -86,14 +86,14 @@ export class InputUi implements ControlValueAccessor {
   containerClasses = computed(() => {
     const base = 'relative flex items-center w-full rounded-lg transition-all duration-200 border';
 
-    // Size classes
+    
     const sizeClasses = {
       sm: 'h-9 px-3 text-sm gap-2',
       md: 'h-11 px-4 text-base gap-3',
       lg: 'h-13 px-6 text-lg gap-4',
     };
 
-    // Variant classes
+    
     const variantClasses = {
       outlined: 'bg-white border-neutral-300 hover:border-neutral-400 hover:shadow-sm',
       filled: 'bg-neutral-100 border-transparent hover:bg-neutral-200',
@@ -101,7 +101,7 @@ export class InputUi implements ControlValueAccessor {
         'bg-transparent border-transparent border-b-2 border-b-neutral-300 rounded-none hover:border-b-neutral-400',
     };
 
-    // State classes
+    
     let stateClasses = '';
 
     if (this.isFocused() && !this.hasError()) {
@@ -177,7 +177,7 @@ export class InputUi implements ControlValueAccessor {
       `inline-flex items-center justify-center flex-shrink-0 text-red-500 dark:text-red-400 transition-colors duration-150 ${this.iconSizeClasses()}`,
   );
 
-  //CVA Implementation
+  
   private onChange: (value: string) => void = () => {};
   onTouched: () => void = () => {};
 
@@ -197,7 +197,7 @@ export class InputUi implements ControlValueAccessor {
     this.isDisabled.set(isDisabled);
   }
 
-  // Event handlers
+  
   onInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const newValue = inputElement.value;
@@ -221,7 +221,7 @@ export class InputUi implements ControlValueAccessor {
     this.showPassword.update((value) => !value);
   }
 
-  // Icon helpers
+
   getLeftIconSvg(): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(this.getIconSvg(this.leftIcon?.() || ''));
   }
