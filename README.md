@@ -1,1 +1,0 @@
-We will build "DevTicket" – a lightweight Issue Tracking System (like a mini-Jira). This allows for incremental complexity: starting with static lists, moving to dynamic state, managing forms, and finally handling routing and API simulation.

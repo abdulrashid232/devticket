@@ -113,7 +113,7 @@ export class InputUi implements ControlValueAccessor {
 
     
     const variantClasses = {
-      outlined: 'bg-white border-neutral-300 hover:border-neutral-400 hover:shadow-sm',
+      outlined: 'bg-transparent border-neutral-300 hover:border-neutral-400 hover:shadow-sm',
       filled: 'bg-neutral-100 border-transparent hover:bg-neutral-200',
       ghost:
         'bg-transparent border-transparent border-b-2 border-b-neutral-300 rounded-none hover:border-b-neutral-400',
@@ -182,12 +182,12 @@ export class InputUi implements ControlValueAccessor {
 
   iconClasses = computed(
     () =>
-      `inline-flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-400 transition-colors duration-150 ${this.iconSizeClasses()}`,
+      `inline-flex items-center justify-center flex-shrink-0 text-neutral-400 transition-colors duration-150 ${this.iconSizeClasses()}`,
   );
 
   toggleButtonClasses = computed(
     () =>
-      `inline-flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-400 transition-all duration-150 cursor-pointer p-1 -m-1 rounded hover:text-neutral-700 dark:hover:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 active:scale-95 focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2 ${this.iconSizeClasses()}`,
+      `inline-flex items-center justify-center flex-shrink-0 text-neutral-400 transition-all duration-150 cursor-pointer p-1 -m-1 rounded hover:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 active:scale-95 focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2 ${this.iconSizeClasses()}`,
   );
 
   errorIconClasses = computed(
