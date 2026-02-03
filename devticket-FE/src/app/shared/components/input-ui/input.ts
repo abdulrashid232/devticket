@@ -6,6 +6,7 @@ import {
   input,
   output,
   signal,
+  ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -26,6 +27,7 @@ import { InputSize, InputType, InputVariant } from './input.model';
   imports: [CommonModule, NgIconComponent],
   templateUrl: './input.html',
   styleUrl: './input.css',
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
