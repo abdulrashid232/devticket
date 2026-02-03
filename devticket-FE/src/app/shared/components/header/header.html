@@ -1,4 +1,3 @@
-<!-- Header -->
 <header
   class="h-16 border-b border-dev-border flex items-center justify-between px-8 bg-(--base-900) backdrop-blur-md sticky top-0 z-10"
 >
@@ -19,9 +18,9 @@
       </div>
       <div class="h-9 w-9 rounded-full bg-dev-border overflow-hidden border border-dev-border">
         <img
-          class="w-full h-full bg-cover bg-center"
-          data-alt="Developer profile avatar Alex Chen"
-          src="{{ userProfileImage() }}"
+          class="w-full h-full object-cover object-center"
+          alt="user profile image"
+          [src]="userProfileImage()"
         />
       </div>
     </div>
