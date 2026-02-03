@@ -2,5 +2,5 @@
 
 :host {
   height: 100%;
-  @apply flex flex-col p-4 gap-4 w-full h-screen overflow-hidden border-r border-(--primary-800) max-w-75 bg-(--base-950) text-(--base-50);
+  @apply flex flex-col p-4 gap-4 w-full h-screen overflow-hidden border-r border-(--primary-900)/50 max-w-75 bg-[#101922] text-(--base-50);
 }

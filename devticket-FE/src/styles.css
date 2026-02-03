@@ -13,6 +13,7 @@
 }
 
 :root {
+  --primary: #2b8cee;
   --primary-50: #eef6ff;
   --primary-100: #d9eaff;
   --primary-200: #bcdbff;

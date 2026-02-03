@@ -5,7 +5,7 @@
 }
 
 :host:has(svg) {
-  @apply gap-1;
+  @apply gap-1.5;
 }
 
 :host:focus {
@@ -21,11 +21,11 @@
 }
 
 :host(.size-sm) {
-  @apply px-3 h-8 text-xs rounded-md;
+  @apply px-3 h-9 text-xs rounded-md;
 }
 
 :host(.size-md) {
-  @apply px-4 h-9 text-sm rounded-lg;
+  @apply px-4 h-10 text-sm rounded-lg;
 }
 
 :host(.size-lg) {
@@ -61,17 +61,17 @@
 }
 
 :host(.variant-outline:active:not(:disabled)) {
-  @apply shadow-none bg-neutral-800/50 scale-[0.99];
+  @apply shadow-none bg-(--primary)/30 scale-[0.99];
 }
 
 :host(.variant-outline-flat) {
-  @apply bg-transparent border border-neutral-700 shadow-sm;
+  @apply bg-transparent border border-neutral-700;
 }
 
 :host(.variant-outline-flat:hover) {
-  @apply bg-neutral-800/85;
+  @apply bg-[#2b8cee]/30;
 }
 
 :host(.variant-outline-flat:active:not(:disabled)) {
-  @apply shadow-none bg-neutral-800/50 scale-[0.99];
+  @apply shadow-none bg-[#2b8cee]/10 scale-[0.99];
 }
