@@ -15,5 +15,5 @@ input:focus {
 }
 
 ng-icon {
-  color: #94a3b8;
+  color: var(--base-400);
 }
