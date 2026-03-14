@@ -40,6 +40,8 @@ __screenshots__/
 
 # System files
 .DS_Store
+**/.DS_Store
+../.DS_Store
 Thumbs.db
 .vscode/
 .qodo

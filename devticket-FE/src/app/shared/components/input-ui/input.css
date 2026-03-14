@@ -8,7 +8,12 @@ input {
   border: none;
   font-size: 14px;
   width: 100%;
+  color: white;
 }
 input:focus {
   outline: none;
+}
+
+ng-icon {
+  color: var(--base-400);
 }
