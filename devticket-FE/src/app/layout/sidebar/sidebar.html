@@ -1,0 +1,26 @@
+<div class="flex items-start gap-2 mb-2">
+  <div class="rounded-lg size-10 bg-blue-500"></div>
+  <div class="h-full flex flex-col">
+    <h1 class="text-sm font-semibold">DevTicket</h1>
+    <p class="text-xs text-(--base-300)">Engineering Team</p>
+  </div>
+</div>
+
+<nav class="flex flex-col gap-px">
+  @for (item of menu(); track item.path) {
+  <a
+    app-button
+    [fullWidth]="true"
+    [variant]="'outline-flat'"
+    [routerLink]="item.path"
+    class="justify-start! border-none!"
+  >
+    <ng-icon [name]="item.icon" size="18" />
+    {{ item.label }}
+  </a>
+  }
+</nav>
+
+<div class="mt-auto w-full flex">
+  <button app-button [fullWidth]="true">+New Issue</button>
+</div>

@@ -1,0 +1,6 @@
+@reference '../styles.css'
+
+:host {
+  width: 100%;
+  background-color: var(--primary);
+}
